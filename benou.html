@@ -529,17 +529,22 @@ async function loadStats(){
 setInterval(() => { if(curTab === 'tStats') loadStats(); }, 30000);
 
 /* ---------- Réglages de la boutique ---------- */
+// Adresse publique de la boutique (config.js > PUBLIC_URL). Sinon : l'adresse où l'admin est ouvert.
+function siteBase(){
+  const u = (C.PUBLIC_URL || '').trim().replace(/\/+$/, '');
+  return u ? u + '/' : new URL('./', location.href).href;
+}
 function productLink(p){
   const s = shops.find(x => x.id === p.shop_id) || curObj() || {};
   const slug = p.slug || p.id;
   if(s.domain) return 'https://' + s.domain + '/?p=' + encodeURIComponent(slug);
-  return new URL('./?b=' + encodeURIComponent(s.slug || '') + '&p=' + encodeURIComponent(slug), location.href).href;
+  return siteBase() + '?b=' + encodeURIComponent(s.slug || '') + '&p=' + encodeURIComponent(slug);
 }
 window.copyProdLink = async id => {
   const p = (window.__products || []).find(x => x.id === id); if(!p) return;
   try{ await navigator.clipboard.writeText(productLink(p)); toast('Lien du produit copié ✓'); }catch(e){ prompt('Copie ce lien :', productLink(p)); }
 };
-function shopLink(s){ return new URL('./?b=' + s.slug, location.href).href; }
+function shopLink(s){ return siteBase() + '?b=' + s.slug; }
 function renderShops(){
   const box = $('shopsBox');
   const s = curObj();
