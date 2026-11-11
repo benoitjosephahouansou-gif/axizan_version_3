@@ -1,0 +1,55 @@
+/* =====================================================================
+   FREE SHOP : thèmes de la boutique
+   Le thème de chaque boutique se choisit dans l'admin (onglet Boutique).
+   Pour retoucher une couleur, modifie la valeur du thème concerné ci-dessous.
+   Ce fichier doit rester à côté de index.html et confidentialite.html.
+   ===================================================================== */
+
+/* ---------- Vert profond (thème par défaut) ---------- */
+:root,
+html[data-theme="vert"]{
+  color-scheme:dark;
+  --bg:#0b1812;  --bg2:#10231b;  --card:#13291f;  --line:#25443a;  --sheet:#0f2019;  --input:#0b1812;
+  --gold:#c9a961;  --gold2:#e2c98a;  --acc-rgb:201,169,97;
+  --txt:#f4f0e6;  --mut:#9db0a5;  --ph:#5f766b;
+  --err:#fca5a5;  --errbg:#3b1217;
+  --on:#1a1408;  --grad:linear-gradient(135deg,#dcc283,#b8964f);
+  --head:rgba(11,24,18,.82);  --ovl:rgba(3,10,7,.72);  --sh:rgba(0,0,0,.4);
+  --toast:#e9dfc4;  --toast-txt:#1a1408;
+}
+
+/* ---------- Noir et or ---------- */
+html[data-theme="noir-or"]{
+  color-scheme:dark;
+  --bg:#0b0b0c;  --bg2:#151516;  --card:#181819;  --line:#2e2e30;  --sheet:#121213;  --input:#0b0b0c;
+  --gold:#c9a961;  --gold2:#e2c98a;  --acc-rgb:201,169,97;
+  --txt:#f5f1e6;  --mut:#a3a3a8;  --ph:#6b6b6e;
+  --err:#fca5a5;  --errbg:#3b1217;
+  --on:#1a1408;  --grad:linear-gradient(135deg,#dcc283,#b8964f);
+  --head:rgba(11,11,12,.82);  --ovl:rgba(0,0,0,.75);  --sh:rgba(0,0,0,.5);
+  --toast:#e9dfc4;  --toast-txt:#1a1408;
+}
+
+/* ---------- Bleu nuit ---------- */
+html[data-theme="bleu-nuit"]{
+  color-scheme:dark;
+  --bg:#0b1120;  --bg2:#111b33;  --card:#141d33;  --line:#243253;  --sheet:#0f1830;  --input:#0b1120;
+  --gold:#6ea8ff;  --gold2:#9cc2ff;  --acc-rgb:110,168,255;
+  --txt:#e7edf9;  --mut:#8b9cc0;  --ph:#5a6b8f;
+  --err:#fca5a5;  --errbg:#3b1217;
+  --on:#06142e;  --grad:linear-gradient(135deg,#8fbcff,#4a82ea);
+  --head:rgba(11,17,32,.82);  --ovl:rgba(2,6,16,.75);  --sh:rgba(0,0,0,.45);
+  --toast:#dbe7ff;  --toast-txt:#06142e;
+}
+
+/* ---------- Ivoire (thème clair) ---------- */
+html[data-theme="ivoire"]{
+  color-scheme:light;
+  --bg:#faf6ef;  --bg2:#f0e8da;  --card:#fffdf9;  --line:#e6dccb;  --sheet:#fffdf9;  --input:#ffffff;
+  --gold:#b4532a;  --gold2:#9a4521;  --acc-rgb:180,83,42;
+  --txt:#2a2118;  --mut:#7a6c5d;  --ph:#a8998a;
+  --err:#b42318;  --errbg:#fee4e2;
+  --on:#ffffff;  --grad:linear-gradient(135deg,#c8693c,#9a4521);
+  --head:rgba(250,246,239,.9);  --ovl:rgba(40,28,16,.55);  --sh:rgba(80,50,20,.18);
+  --toast:#2a2118;  --toast-txt:#faf6ef;
+}

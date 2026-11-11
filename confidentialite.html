@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1812">
+<title>Politique de confidentialité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="theme.css">
+<script>(function(){try{var k=new URLSearchParams(location.search).get("b")||location.hostname;var s=localStorage.getItem("fs_theme:"+k);if(s)document.documentElement.setAttribute("data-theme",s)}catch(e){}})()</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.7}
+  .wrap{max-width:760px;margin:auto;padding:28px 20px 70px}
+  a{color:var(--gold2)}
+  .back{display:inline-block;margin-bottom:18px;text-decoration:none;font-weight:600;font-size:.92rem}
+  h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.7rem,6vw,2.4rem);line-height:1.2}
+  .date{color:var(--mut);font-size:.88rem;margin:8px 0 22px}
+  h2{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;margin:28px 0 8px;color:var(--gold2)}
+  p,li{color:var(--txt);opacity:.9}
+  ul{padding-left:22px;margin:8px 0}
+  li{margin:4px 0}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:10px 0}
+  .todo{color:var(--err);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" id="back" href="./">← Retour à la boutique</a>
+  <h1>Politique de confidentialité</h1>
+  <div class="date" id="date"></div>
+
+  <p>Cette page explique quelles informations personnelles sont collectées quand vous visitez <b class="shopname">notre boutique</b> ou passez commande, à quoi elles servent, combien de temps elles sont gardées et comment exercer vos droits.</p>
+
+  <h2>1. Qui est responsable de vos données ?</h2>
+  <div class="box" id="who"></div>
+
+  <h2>2. Quelles données collectons-nous ?</h2>
+  <p><b>Quand vous passez commande :</b></p>
+  <ul>
+    <li>votre nom, votre numéro de téléphone et votre adresse de livraison ;</li>
+    <li>un message, si vous en écrivez un (facultatif) ;</li>
+    <li>le contenu de votre commande (produits, quantités, montant) et son statut.</li>
+  </ul>
+  <p><b>Si vous remplissez le formulaire sans terminer la commande :</b> votre nom, votre numéro de téléphone, votre adresse et le contenu de votre panier sont enregistrés dès que vous saisissez un numéro de téléphone valide, afin de pouvoir vous recontacter.</p>
+  <p><b>Quand vous visitez le site :</b> un identifiant anonyme généré dans votre navigateur, les pages consultées, l'origine de la visite (par exemple Facebook ou lien direct) et le type d'appareil (téléphone, ordinateur). Nous n'enregistrons pas votre adresse IP dans notre base de données.</p>
+
+  <h2>3. Pourquoi ?</h2>
+  <ul>
+    <li>traiter, confirmer, livrer et suivre votre commande, y compris vous appeler pour la confirmer ;</li>
+    <li>vous recontacter si votre commande n'a pas été terminée (par téléphone ou WhatsApp) ;</li>
+    <li>mesurer la fréquentation du site et l'efficacité de nos publicités ;</li>
+    <li>répondre à vos questions et gérer les éventuels litiges.</li>
+  </ul>
+  <p>En saisissant votre numéro de téléphone et en validant la commande, vous acceptez que nous utilisions ces informations pour ces finalités. Nous ne vendons pas vos données.</p>
+
+  <h2>4. Avec qui sont-elles partagées ?</h2>
+  <p>Uniquement avec les services nécessaires au fonctionnement de la boutique :</p>
+  <ul>
+    <li><b>Supabase</b> : hébergement de la base de données (commandes, contacts) ;</li>
+    <li><b>Vercel</b> : hébergement du site ;</li>
+    <li><b>Meta (Facebook)</b> : le « Pixel Facebook » mesure les visites et les achats pour nos publicités. Il peut déposer des identifiants dans votre navigateur et transmettre à Meta des informations sur votre navigation et vos achats (pas votre nom ni votre numéro) ;</li>
+    <li><b>Telegram</b> : le vendeur reçoit une alerte interne à chaque commande ;</li>
+    <li><b>WhatsApp</b> : si vous choisissez de nous écrire ou si nous vous contactons par ce biais ;</li>
+    <li>le livreur, pour la livraison de votre commande.</li>
+  </ul>
+  <p>Certains de ces services sont hébergés hors du Bénin : vos données peuvent donc être traitées à l'étranger.</p>
+
+  <h2>5. Combien de temps ?</h2>
+  <ul>
+    <li><b>Commandes :</b> <span id="retOrders"></span>, pour la gestion de la commande et d'éventuels litiges.</li>
+    <li><b>Formulaires non terminés :</b> <span id="retAb"></span>, ou plus tôt si vous nous le demandez ou si vous commandez.</li>
+    <li><b>Statistiques de visite :</b> <span id="retVis"></span>.</li>
+  </ul>
+
+  <h2>6. Stockage dans votre navigateur</h2>
+  <p>Le site garde dans votre navigateur (stockage local) le contenu de votre panier et l'identifiant anonyme du visiteur. Vous pouvez les effacer à tout moment dans les réglages de votre navigateur. Le Pixel Facebook peut aussi utiliser ses propres identifiants ; vous pouvez les limiter dans les réglages de votre navigateur ou de votre compte Facebook.</p>
+
+  <h2>7. Vos droits</h2>
+  <p>Vous pouvez demander à accéder à vos données, à les corriger, à les supprimer, ou vous opposer à leur utilisation pour vous recontacter. Pour cela, contactez-nous : <span id="contact"></span>. Nous répondrons dans un délai raisonnable.</p>
+  <p>Vous pouvez aussi vous adresser à l'autorité de protection des données personnelles de votre pays (au Bénin : l'APDP, Autorité de protection des données à caractère personnel).</p>
+
+  <h2>8. Sécurité</h2>
+  <p>Les commandes et contacts sont stockés dans une base de données protégée : seul l'administrateur de la boutique, connecté avec un mot de passe, peut les consulter. Les échanges avec le site sont chiffrés (HTTPS).</p>
+
+  <h2>9. Modifications</h2>
+  <p>Cette politique peut évoluer. La date de dernière mise à jour est indiquée en haut de la page.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script>
+/* ===== À COMPLÉTER UNE SEULE FOIS (laisse vide ce que tu ne veux pas afficher) ===== */
+const LEGAL = {
+  responsable: '',          // ton nom ou le nom de ton entreprise, ex : 'Benoît-Joseph D.' ou 'Free Shop SARL'
+  email: '',                // ton e-mail de contact (facultatif)
+  adresse: '',              // ville / pays, ex : 'Lokossa, Bénin' (facultatif)
+  conservationCommandes: '3 ans',
+  conservationAbandons: '90 jours',
+  conservationVisites: '24 mois',
+  misAJour: ''              // ex : '4 novembre 2026' ; si vide, la date du jour est utilisée
+};
+/* ================================================================================== */
+
+const C = window.FREESHOP || {};
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+const todo = t => '<span class="todo">' + esc(t) + '</span>';
+
+function render(shop){
+  const th = ['vert','noir-or','ivoire','bleu-nuit'].includes(shop && shop.theme) ? shop.theme : 'vert';
+  document.documentElement.setAttribute('data-theme', th);
+  const name = (shop && shop.name) || 'notre boutique';
+  document.title = 'Politique de confidentialité · ' + name;
+  document.querySelectorAll('.shopname').forEach(e => e.textContent = name);
+  const slug = shop && shop.slug;
+  $('back').href = slug ? './?b=' + encodeURIComponent(slug) : './';
+  $('who').innerHTML = '<b>' + esc(name) + '</b><br>'
+    + (LEGAL.responsable ? esc(LEGAL.responsable) : todo('[Nom du responsable à compléter dans confidentialite.html]'))
+    + (LEGAL.adresse ? '<br>' + esc(LEGAL.adresse) : '');
+  const wa = shop && shop.whatsapp ? shop.whatsapp.replace(/[^0-9]/g, '') : '';
+  const contacts = [];
+  if(wa) contacts.push('par WhatsApp au <a href="https://wa.me/' + esc(wa) + '" target="_blank" rel="noopener">+' + esc(wa) + '</a>');
+  if(LEGAL.email) contacts.push('par e-mail à <a href="mailto:' + esc(LEGAL.email) + '">' + esc(LEGAL.email) + '</a>');
+  $('contact').innerHTML = contacts.length ? contacts.join(' ou ') : todo('[moyen de contact à compléter]');
+  $('retOrders').textContent = LEGAL.conservationCommandes;
+  $('retAb').textContent = LEGAL.conservationAbandons;
+  $('retVis').textContent = LEGAL.conservationVisites;
+  $('date').textContent = 'Dernière mise à jour : ' + (LEGAL.misAJour || new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' }));
+}
+
+(async function(){
+  render(null);
+  try{
+    const db = supabase.createClient(C.SUPABASE_URL, C.SUPABASE_KEY);
+    const slug = new URLSearchParams(location.search).get('b');
+    const host = location.hostname.replace(/^www\./, '');
+    const one = f => f.then(r => r.data || null, () => null);
+    let s = null;
+    if(slug) s = await one(db.from('shops').select('name,slug,whatsapp,theme').eq('slug', slug).eq('active', true).maybeSingle());
+    if(!s && host && host !== 'localhost' && host !== '127.0.0.1') s = await one(db.from('shops').select('name,slug,whatsapp,theme').eq('domain', host).eq('active', true).maybeSingle());
+    if(!s){ const r = await db.from('shops').select('name,slug,whatsapp,theme').eq('active', true).order('position').order('created_at').limit(1); s = r.data && r.data[0]; }
+    if(s) render(s);
+  }catch(e){ console.error(e); }
+})();
+</script>
+</body>
+</html>

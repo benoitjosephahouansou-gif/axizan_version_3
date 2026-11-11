@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0a0a0b">
+<title>Admin</title>
+<style>
+  :root{--bg:#0a0a0b;--card:#141417;--card2:#1b1b1f;--line:#26262b;--txt:#f2f2f2;--mut:#9a9a9f;--acc:#c9a961;--acc2:#e2c98a;--on:#1a1408;--red:#dc2626;--green:#16a34a}
+  *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+  body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--txt);padding-bottom:84px}
+  .hidden{display:none!important}
+  button{font-family:inherit;cursor:pointer}
+  h3{margin-bottom:4px}
+  .top{background:var(--card);border-bottom:1px solid var(--line);padding:10px 12px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:10}
+  .top select{flex:1;min-width:0;padding:10px 12px;font-weight:700}
+  .badge{background:var(--acc);color:var(--on);border-radius:99px;padding:2px 9px;font-size:.8rem;font-weight:700}
+  .wrap{max-width:780px;margin:auto;padding:14px}
+  .login{max-width:380px;margin:12vh auto;padding:24px;background:var(--card);border-radius:22px}
+  .login h1{font-size:1.3rem;margin-bottom:14px}
+  label{display:block;font-weight:600;font-size:.86rem;margin:12px 0 4px;color:#d6d6da}
+  input,textarea,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit;font-size:16px;background:#0f0f11;color:var(--txt)}
+  input[type=checkbox]{width:auto}
+  input::placeholder,textarea::placeholder{color:#6b6b72}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--acc);border-color:transparent}
+  .btn{padding:12px 16px;border:0;border-radius:12px;background:var(--acc);color:var(--on);font-weight:700;font-size:1rem}
+  .btn.full{width:100%;margin-top:14px}
+  .btn.ghost{background:var(--card2);color:var(--txt);border:1px solid var(--line)}
+  .btn.red{background:var(--red);color:#fff}
+  .btn.call{background:var(--green);color:#fff;text-decoration:none;display:inline-block}
+  .btn.sm{padding:9px 12px;font-size:.88rem}
+  a.btn{text-decoration:none}
+  .err{color:#fca5a5;margin-top:10px;font-size:.9rem}
+  .mut{color:var(--mut);font-size:.85rem}
+  .row{display:flex;justify-content:space-between;gap:8px;align-items:center}
+
+  .tabs{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;z-index:10;padding-bottom:env(safe-area-inset-bottom)}
+  .tabs button{flex:1;padding:12px 2px;background:none;border:0;font-size:.74rem;color:var(--mut);font-weight:600;line-height:1.3}
+  .tabs button span{display:block;font-size:1.15rem}
+  .tabs button.on{color:var(--acc2);border-top:3px solid var(--acc);padding-top:9px}
+
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px}
+  .chip{white-space:nowrap;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:.88rem;cursor:pointer}
+  .chip.on{background:var(--acc);color:var(--on);border-color:var(--acc)}
+  .card,.panel{background:var(--card);border-radius:22px;padding:16px;margin-bottom:12px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .card.new{border-left:5px solid var(--acc)}
+  .tag{display:inline-block;background:var(--card2);color:var(--acc2);border-radius:8px;padding:2px 8px;font-size:.75rem;font-weight:600;margin-left:6px}
+  .st{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:700;white-space:nowrap}
+  .st.nouvelle{background:#3a2e12;color:#f0cf7d}.st.en_cours{background:#3a2a0d;color:#fbbf24}
+  .st.expediee{background:#10233f;color:#7db4ff}.st.livree{background:#0f2e1c;color:#4ade80}.st.annulee{background:#222226;color:#9a9a9f}
+  .st.abandonne{background:#3a1226;color:#ff7ab8}.st.rappele{background:#10233f;color:#7db4ff}.st.commande{background:#0f2e1c;color:#4ade80}
+  .st.on{background:#0f2e1c;color:#4ade80}.st.off{background:#222226;color:#9a9a9f}
+  .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .actions>*{flex:1;min-width:110px;text-align:center}
+
+  .kgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .kpi{background:var(--card);border-radius:22px;padding:18px 16px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .kpi b{display:block;font-size:1.35rem;color:var(--acc2);letter-spacing:-.5px;white-space:nowrap}
+  .kpi span{color:var(--mut);font-size:.8rem}
+  .chbox{position:relative;height:230px;margin-top:8px}
+
+  .pitem{display:flex;gap:12px;align-items:center}
+  .pitem img,.pitem .ph{width:64px;height:64px;border-radius:14px;object-fit:cover;background:var(--card2);flex:none}
+  .pitem .inf{flex:1;min-width:0}
+  .pitem .nm{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gallery{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .thumb{position:relative;width:84px;height:84px}
+  .thumb img{width:100%;height:100%;object-fit:cover;border-radius:12px;border:2px solid var(--line);cursor:pointer}
+  .thumb.first img{border-color:var(--acc)}
+  .thumb button{position:absolute;top:-6px;right:-6px;width:24px;height:24px;border-radius:50%;border:0;background:var(--red);color:#fff}
+  .thumb em{position:absolute;bottom:4px;left:4px;background:var(--acc);color:var(--on);font-size:.65rem;padding:1px 5px;border-radius:6px;font-style:normal;font-weight:700}
+  .preview{max-width:120px;max-height:120px;border-radius:12px;margin-top:8px;display:block}
+
+  #toast{position:fixed;top:12px;left:12px;right:12px;max-width:520px;margin:auto;background:var(--acc);color:var(--on);padding:14px 16px;border-radius:14px;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.5);font-weight:700;transform:translateY(-160%);transition:.35s;cursor:pointer}
+  #toast.show{transform:none}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+  .sheet{background:var(--card);width:100%;max-width:580px;border-radius:24px 24px 0 0;padding:18px;max-height:92vh;overflow:auto}
+  dl{display:grid;grid-template-columns:100px 1fr;gap:8px 10px;margin:12px 0}
+  dt{color:var(--mut);font-size:.86rem} dd{font-weight:600;word-break:break-word}
+  .items div{display:flex;justify-content:space-between;gap:10px;padding:4px 0}
+  .linkbox{background:var(--card2);border-radius:12px;padding:10px 12px;font-size:.85rem;word-break:break-all;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<!-- CONNEXION -->
+<div id="loginView" class="login hidden">
+  <h1>🔐 Administration</h1>
+  <label>Email</label><input id="email" type="email" autocomplete="username">
+  <label>Mot de passe</label><input id="pwd" type="password" autocomplete="current-password">
+  <div class="err" id="loginErr"></div>
+  <button class="btn full" id="loginBtn">Se connecter</button>
+</div>
+
+<!-- APPLICATION -->
+<div id="appView" class="hidden">
+  <div class="top">
+    <select id="shopSel" aria-label="Boutique"></select>
+    <span class="badge hidden" id="newBadge">0</span>
+    <button class="btn ghost sm" id="logout">Quitter</button>
+  </div>
+  <div class="wrap">
+
+    <section id="tOrders">
+      <div class="chips" id="chips"></div>
+      <div id="orders"></div>
+    </section>
+
+    <section id="tProducts" class="hidden">
+      <div class="row" style="margin-bottom:12px"><h3>Produits</h3><button class="btn sm" id="newProduct">＋ Nouveau produit</button></div>
+      <div id="products"></div>
+    </section>
+
+    <section id="tAbandons" class="hidden">
+      <p class="mut" style="margin-bottom:10px">Personnes qui ont saisi leur téléphone dans le formulaire sans terminer la commande.</p>
+      <div class="chips" id="abChips"></div>
+      <div id="abandons"></div>
+    </section>
+
+    <section id="tStats" class="hidden">
+      <div class="chips" id="vRange">
+        <div class="chip" data-d="1">Aujourd'hui</div><div class="chip on" data-d="7">7 jours</div><div class="chip" data-d="30">30 jours</div>
+      </div>
+      <div class="card"><div class="row"><b>🟢 En ligne maintenant</b><b id="vLive">0</b></div>
+        <div class="mut">visiteurs actifs ces 5 dernières minutes</div></div>
+      <div class="kgrid" id="vKpi"></div>
+      <div class="panel"><h3>💰 Chiffre d'affaires par jour</h3><div class="chbox"><canvas id="chRev"></canvas></div>
+        <div class="mut" style="margin-top:6px">Hors commandes annulées. « Livré » = commandes au statut Livrée.</div></div>
+      <div class="panel"><h3>👥 Visiteurs par jour</h3><div class="chbox"><canvas id="chVis"></canvas></div></div>
+      <div class="panel"><h3>🛒 Commandes par jour</h3><div class="chbox"><canvas id="chOrd"></canvas></div></div>
+      <div class="panel"><h3>D'où viennent-ils ?</h3><div class="chbox"><canvas id="chSrc"></canvas></div></div>
+      <div class="panel"><h3>Appareils</h3><div class="chbox"><canvas id="chDev"></canvas></div></div>
+    </section>
+
+    <section id="tShops" class="hidden"><div id="shopsBox"></div></section>
+  </div>
+
+  <nav class="tabs">
+    <button data-t="tOrders" class="on"><span>📦</span>Commandes</button>
+    <button data-t="tProducts"><span>🛍️</span>Produits</button>
+    <button data-t="tAbandons"><span>📞</span>Abandons</button>
+    <button data-t="tStats"><span>📊</span>Stats</button>
+    <button data-t="tShops"><span>⚙️</span>Boutique</button>
+  </nav>
+</div>
+
+<div id="modal" class="modal hidden"><div class="sheet" id="sheet"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script src="config.js"></script>
+<script>
+const C = window.FREESHOP || {};
+const db = supabase.createClient(C.SUPABASE_URL, C.SUPABASE_KEY);
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const STATUS = { nouvelle:'Nouvelle', en_cours:'En cours', expediee:'Expédiée', livree:'Livrée', annulee:'Annulée' };
+const AB_STATUS = { abandonne:'À rappeler', rappele:'Rappelé', commande:'A commandé' };
+const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+let shops = [], curShop = 'all', orders = [], oFilter = 'all', abandons = [], abFilter = 'abandonne', audioCtx = null, curTab = 'tOrders', vDays = 7;
+const baseTitle = document.title;
+
+const shopOf = id => shops.find(s => s.id === id);
+const shopName = id => (shopOf(id) || {}).name || '';
+const curObj = () => curShop === 'all' ? null : shopOf(curShop);
+const fmt = (n, id) => { const s = shopOf(id) || curObj() || shops[0]; return Number(n).toLocaleString('fr-FR') + ' ' + ((s && s.currency) || C.CURRENCY || 'FCFA'); };
+const byShop = q => curShop === 'all' ? q : q.eq('shop_id', curShop);
+const ago = d => { const m = Math.round((Date.now() - new Date(d)) / 60000); if(m < 1) return "à l'instant"; if(m < 60) return 'il y a ' + m + ' min'; const h = Math.round(m / 60); if(h < 24) return 'il y a ' + h + ' h'; return 'il y a ' + Math.round(h / 24) + ' j'; };
+const when = d => new Date(d).toLocaleString('fr-FR', { dateStyle:'short', timeStyle:'short' });
+function telNum(p){ return String(p || '').replace(/[^0-9+]/g, ''); }
+function waNum(p){
+  let d = String(p || '').replace(/[^0-9+]/g, '');
+  if(d.startsWith('+')) return d.slice(1);
+  if(d.startsWith('00')) return d.slice(2);
+  const cc = C.COUNTRY_CODE || '229';
+  if(d.startsWith(cc) && d.length >= 11) return d;
+  return cc + d;
+}
+const slugify = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
+
+/* ---------- Connexion ---------- */
+async function boot(){
+  const { data:{ session } } = await db.auth.getSession();
+  session ? startApp() : $('loginView').classList.remove('hidden');
+}
+$('loginBtn').onclick = async () => {
+  $('loginErr').textContent = '';
+  try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){}
+  if('Notification' in window && Notification.permission === 'default') Notification.requestPermission();
+  const { error } = await db.auth.signInWithPassword({ email:$('email').value.trim(), password:$('pwd').value });
+  if(error) return $('loginErr').textContent = 'Email ou mot de passe incorrect.';
+  $('loginView').classList.add('hidden'); startApp();
+};
+$('pwd').addEventListener('keydown', e => { if(e.key === 'Enter') $('loginBtn').click(); });
+$('logout').onclick = async () => { await db.auth.signOut(); location.reload(); };
+
+async function startApp(){
+  $('appView').classList.remove('hidden');
+  await loadShops();
+  await loadOrders();
+  db.channel('orders-live')
+    .on('postgres_changes', { event:'INSERT', schema:'public', table:'orders' }, p => onNewOrder(p.new))
+    .on('postgres_changes', { event:'UPDATE', schema:'public', table:'orders' }, () => loadOrders())
+    .on('postgres_changes', { event:'DELETE', schema:'public', table:'orders' }, () => loadOrders())
+    .subscribe();
+  setInterval(loadOrders, 60000);
+}
+
+/* ---------- Boutiques ---------- */
+async function loadShops(){
+  const { data, error } = await db.from('shops').select('*').order('position').order('created_at');
+  if(error){ console.error(error); toast('Boutiques introuvables : as-tu lancé schema_v2.sql dans Supabase ?'); shops = []; }
+  else shops = data || [];
+  const saved = store.get('fs_admin_shop');
+  if(!(curShop === 'all' || shopOf(curShop))) curShop = 'all';
+  if(saved && (saved === 'all' || shopOf(saved)) && !loadShops.done) curShop = saved;
+  if(!loadShops.done && shops.length === 1) curShop = shops[0].id;
+  loadShops.done = true;
+  renderShopSel();
+}
+function renderShopSel(){
+  $('shopSel').innerHTML = '<option value="all">Toutes les boutiques</option>' +
+    shops.map(s => `<option value="${esc(s.id)}" ${s.id === curShop ? 'selected' : ''}>${esc(s.name)}${s.active ? '' : ' (masquée)'}</option>`).join('');
+  $('shopSel').value = curShop;
+}
+$('shopSel').onchange = () => { curShop = $('shopSel').value; store.set('fs_admin_shop', curShop); refreshTab(); loadOrders(); };
+
+/* ---------- Onglets ---------- */
+function refreshTab(){
+  if(curTab === 'tProducts') loadProducts();
+  if(curTab === 'tAbandons') loadAbandons();
+  if(curTab === 'tStats') loadStats();
+  if(curTab === 'tShops') renderShops();
+  if(curTab === 'tOrders') loadOrders();
+}
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+  curTab = b.dataset.t;
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  ['tOrders','tProducts','tAbandons','tStats','tShops'].forEach(id => $(id).classList.toggle('hidden', id !== curTab));
+  refreshTab();
+});
+
+/* ---------- Commandes ---------- */
+async function loadOrders(){
+  const { data, error } = await byShop(db.from('orders').select('*')).order('created_at', { ascending:false }).limit(300);
+  if(error) return console.error(error);
+  orders = data || []; renderChips(); renderOrders(); updateBadge();
+}
+function renderChips(){
+  const all = [['all','Toutes'], ...Object.entries(STATUS)];
+  $('chips').innerHTML = all.map(([k,v]) => {
+    const n = k === 'all' ? orders.length : orders.filter(o => o.status === k).length;
+    return `<div class="chip ${oFilter === k ? 'on' : ''}" data-f="${k}">${v} (${n})</div>`;
+  }).join('');
+  $('chips').querySelectorAll('.chip').forEach(c => c.onclick = () => { oFilter = c.dataset.f; renderChips(); renderOrders(); });
+}
+function itemsText(o){
+  if(Array.isArray(o.items) && o.items.length) return o.items.map(i => i.qty + ' × ' + i.name).join(', ');
+  return o.quantity + ' × ' + (o.product_name || '').replace(/^\[[^\]]*\]\s*/, '');
+}
+function renderOrders(){
+  const list = orders.filter(o => oFilter === 'all' || o.status === oFilter);
+  if(!list.length){ $('orders').innerHTML = '<p class="mut" style="text-align:center;padding:30px">Aucune commande.</p>'; return; }
+  $('orders').innerHTML = list.map(o => `
+    <div class="card ${o.status === 'nouvelle' ? 'new' : ''}">
+      <div class="row"><b>#${o.order_number} · ${esc(o.customer_name)}</b><span class="st ${o.status}">${STATUS[o.status] || o.status}</span></div>
+      <div class="mut">${when(o.created_at)}${curShop === 'all' && o.shop_id ? `<span class="tag">${esc(shopName(o.shop_id))}</span>` : ''}</div>
+      <div style="margin-top:6px">${esc(itemsText(o))} — <b>${fmt(o.total, o.shop_id)}</b></div>
+      <div class="mut">📞 ${esc(o.phone)}</div>
+      <div class="actions">
+        <a class="btn call" href="tel:${esc(telNum(o.phone))}">📞 Appeler</a>
+        <button class="btn ghost" onclick="openOrder('${o.id}')">Détails</button>
+      </div>
+    </div>`).join('');
+}
+function updateBadge(){
+  const n = orders.filter(o => o.status === 'nouvelle').length;
+  $('newBadge').textContent = n; $('newBadge').classList.toggle('hidden', n === 0);
+  document.title = n ? `(${n}) ${baseTitle}` : baseTitle;
+}
+window.openOrder = id => {
+  const o = orders.find(x => x.id === id); if(!o) return;
+  const lines = Array.isArray(o.items) && o.items.length
+    ? o.items.map(i => `<div><span>${i.qty} × ${esc(i.name)}</span><span>${fmt(i.price * i.qty, o.shop_id)}</span></div>`).join('')
+    : `<div><span>${esc(itemsText(o))}</span><span>${fmt(o.total, o.shop_id)}</span></div>`;
+  $('sheet').innerHTML = `
+    <div class="row"><h3>Commande #${o.order_number}</h3><button class="btn ghost sm" onclick="closeModal()">Fermer</button></div>
+    <dl>
+      <dt>Boutique</dt><dd>${esc(shopName(o.shop_id) || '—')}</dd>
+      <dt>Date</dt><dd>${new Date(o.created_at).toLocaleString('fr-FR')}</dd>
+      <dt>Client</dt><dd>${esc(o.customer_name)}</dd>
+      <dt>Téléphone</dt><dd>${esc(o.phone)}</dd>
+      <dt>Adresse</dt><dd>${esc(o.address || '—')}</dd>
+      ${o.email ? `<dt>Email</dt><dd>${esc(o.email)}</dd>` : ''}
+      <dt>Message</dt><dd>${esc(o.note || '—')}</dd>
+    </dl>
+    <div class="items card" style="margin-bottom:0">${lines}<div style="border-top:1px dashed var(--line);margin-top:6px;padding-top:8px;font-weight:700"><span>Total</span><span>${fmt(o.total, o.shop_id)}</span></div></div>
+    <label>Statut</label>
+    <select id="stSel">${Object.entries(STATUS).map(([k,v]) => `<option value="${k}" ${o.status === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
+    <div class="actions">
+      <a class="btn call" href="tel:${esc(telNum(o.phone))}">📞 Appeler</a>
+      <a class="btn ghost" href="https://wa.me/${esc(waNum(o.phone))}" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <button class="btn full" onclick="saveStatus('${o.id}')">Enregistrer le statut</button>
+    <button class="btn red full" onclick="delOrder('${o.id}')">Supprimer la commande</button>`;
+  $('modal').classList.remove('hidden');
+};
+window.closeModal = () => $('modal').classList.add('hidden');
+$('modal').addEventListener('click', e => { if(e.target === $('modal')) closeModal(); });
+window.saveStatus = async id => {
+  const { error } = await db.from('orders').update({ status: $('stSel').value }).eq('id', id);
+  if(error) return alert("Erreur : le statut n'a pas été modifié.");
+  closeModal(); loadOrders();
+};
+window.delOrder = async id => {
+  if(!confirm('Supprimer définitivement cette commande ?')) return;
+  const { error } = await db.from('orders').delete().eq('id', id);
+  if(error) return alert('Erreur de suppression.');
+  closeModal(); loadOrders();
+};
+
+/* ---------- Notification de nouvelle commande ---------- */
+function toast(msg, onclick){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  t.onclick = () => { t.classList.remove('show'); if(onclick) onclick(); };
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 9000);
+}
+function onNewOrder(o){
+  if(curShop !== 'all' && o.shop_id !== curShop){ toast('🛒 Nouvelle commande dans « ' + shopName(o.shop_id) + ' »'); beep(); return; }
+  loadOrders(); beep();
+  const msg = `🛒 ${shopName(o.shop_id) ? shopName(o.shop_id) + ' · ' : ''}Commande #${o.order_number} — ${o.customer_name} — ${fmt(o.total, o.shop_id)}`;
+  toast(msg, () => { document.querySelector('[data-t=tOrders]').click(); setTimeout(() => openOrder(o.id), 400); });
+  if(navigator.vibrate) navigator.vibrate([200,100,200]);
+  if('Notification' in window && Notification.permission === 'granted'){ try{ new Notification('Nouvelle commande', { body: msg }); }catch(e){} }
+}
+function beep(){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    [880, 1175].forEach((f, i) => {
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.frequency.value = f; o.connect(g); g.connect(audioCtx.destination);
+      const t0 = audioCtx.currentTime + i * 0.2;
+      g.gain.setValueAtTime(0.25, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.18);
+      o.start(t0); o.stop(t0 + 0.2);
+    });
+  }catch(e){}
+}
+
+/* ---------- Images (réduction automatique avant envoi) ---------- */
+async function prep(file, keepPng){
+  try{
+    if(!file.type.startsWith('image/') || /svg|gif/.test(file.type)) return file;
+    const url = URL.createObjectURL(file);
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const k = Math.min(1, 1400 / Math.max(img.width, img.height));
+    const w = Math.round(img.width * k), h = Math.round(img.height * k);
+    const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+    const ctx = cv.getContext('2d');
+    const png = keepPng && file.type === 'image/png';
+    if(!png){ ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); }
+    ctx.drawImage(img, 0, 0, w, h); URL.revokeObjectURL(url);
+    const blob = await new Promise(r => cv.toBlob(r, png ? 'image/png' : 'image/jpeg', .85));
+    if(!blob || (k === 1 && blob.size >= file.size)) return file;
+    return new File([blob], file.name.replace(/\.[^.]+$/, '') + (png ? '.png' : '.jpg'), { type: blob.type });
+  }catch(e){ return file; }
+}
+async function upload(file, folder, keepPng){
+  const f = await prep(file, keepPng);
+  const ext = (f.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 6)}.${ext}`;
+  const { error } = await db.storage.from('assets').upload(path, f, { cacheControl:'31536000', upsert:false, contentType: f.type });
+  if(error) throw error;
+  return db.storage.from('assets').getPublicUrl(path).data.publicUrl;
+}
+
+/* ---------- Produits ---------- */
+async function loadProducts(){
+  const box = $('products');
+  if(curShop === 'all'){ $('newProduct').classList.add('hidden'); box.innerHTML = '<p class="mut" style="text-align:center;padding:30px">Choisis une boutique en haut pour gérer ses produits.</p>'; return; }
+  $('newProduct').classList.remove('hidden');
+  const { data, error } = await db.from('products').select('*').eq('shop_id', curShop).order('position').order('created_at', { ascending:false });
+  if(error){ box.innerHTML = '<p class="err">Erreur de chargement des produits.</p>'; return; }
+  window.__products = data || [];
+  box.innerHTML = window.__products.map(p => {
+    const im = (p.images && p.images[0]) || p.image_url;
+    return `<div class="card"><div class="pitem">${im ? `<img src="${esc(im)}" alt="">` : '<div class="ph"></div>'}
+      <div class="inf"><div class="nm">${esc(p.name)}</div><div class="mut">${fmt(p.price)} · ${(p.images || []).length} photo(s)</div>
+      <span class="st ${p.active ? 'on' : 'off'}">${p.active ? 'Visible' : 'Masqué'}</span></div>
+      <button class="btn ghost sm" onclick="editProduct('${p.id}')">Modifier</button></div>
+      <div class="linkbox">${esc(productLink(p))}</div>
+      <div style="display:flex;gap:8px;margin-top:8px"><button class="btn sm" onclick="copyProdLink('${p.id}')">Copier le lien</button>
+      <a class="btn ghost sm" style="text-decoration:none;display:inline-block" href="${esc(productLink(p))}" target="_blank" rel="noopener">Ouvrir</a></div></div>`;
+  }).join('') || '<p class="mut" style="text-align:center;padding:30px">Aucun produit. Clique sur « Nouveau produit ».</p>';
+}
+let ed = { id:null, images:[] };
+function renderEdGallery(){
+  $('edGallery').innerHTML = ed.images.map((u, i) => `
+    <div class="thumb ${i === 0 ? 'first' : ''}"><img src="${esc(u)}" alt="" onclick="edFirst(${i})">${i === 0 ? '<em>1ère</em>' : ''}<button type="button" onclick="edRemove(${i})">×</button></div>`).join('')
+    || '<p class="mut">Aucune photo.</p>';
+}
+window.edRemove = i => { ed.images.splice(i, 1); renderEdGallery(); };
+window.edFirst = i => { const [u] = ed.images.splice(i, 1); ed.images.unshift(u); renderEdGallery(); };
+window.editProduct = id => openEditor((window.__products || []).find(p => p.id === id));
+$('newProduct').onclick = () => openEditor(null);
+function openEditor(p){
+  if(curShop === 'all') return;
+  ed = { id: p ? p.id : null, images: p ? [...((p.images && p.images.length) ? p.images : (p.image_url ? [p.image_url] : []))] : [] };
+  $('sheet').innerHTML = `
+    <div class="row"><h3>${p ? 'Modifier le produit' : 'Nouveau produit'}</h3><button class="btn ghost sm" onclick="closeModal()">Fermer</button></div>
+    <label>Nom</label><input id="eName" value="${esc(p ? p.name : '')}">
+    <label>Prix</label><input id="ePrice" type="number" inputmode="numeric" min="0" value="${p ? p.price : ''}">
+    <label>Description</label><textarea id="eDesc" rows="4">${esc(p ? p.description || '' : '')}</textarea>
+    <label>Photos (choisis-en plusieurs, elles sont réduites automatiquement)</label>
+    <input id="eFile" type="file" accept="image/*" multiple>
+    <div id="edGallery" class="gallery"></div>
+    <div class="mut" style="margin-top:6px">Le cadre doré = première photo. Touche une photo pour la mettre en premier.</div>
+    <label>Ordre d'affichage (0 = en premier)</label><input id="ePos" type="number" inputmode="numeric" value="${p ? p.position || 0 : 0}">
+    <label style="display:flex;gap:8px;align-items:center"><input id="eActive" type="checkbox" ${!p || p.active ? 'checked' : ''}> Produit visible sur la boutique</label>
+    <button class="btn full" id="eSave">Enregistrer</button>
+    ${p ? '<button class="btn red full" id="eDel">Supprimer ce produit</button>' : ''}
+    <div class="mut" id="eMsg" style="margin-top:8px"></div>`;
+  renderEdGallery(); $('modal').classList.remove('hidden');
+  $('eSave').onclick = saveProduct;
+  if(p) $('eDel').onclick = async () => {
+    if(!confirm('Supprimer ce produit ? Les anciennes commandes restent conservées.')) return;
+    const { error } = await db.from('products').delete().eq('id', p.id);
+    if(error) return $('eMsg').textContent = '❌ ' + error.message;
+    closeModal(); loadProducts();
+  };
+}
+async function saveProduct(){
+  const msg = $('eMsg'); msg.textContent = 'Enregistrement…';
+  try{
+    const price = Number($('ePrice').value), name = $('eName').value.trim();
+    if(!name || isNaN(price) || price < 0 || $('ePrice').value === '') throw new Error('Nom ou prix invalide');
+    const files = [...$('eFile').files], slug = (curObj() || {}).slug || 'produits';
+    for(let k = 0; k < files.length; k++){
+      msg.textContent = 'Envoi de la photo ' + (k + 1) + '/' + files.length + '…';
+      ed.images.push(await upload(files[k], slug));
+    }
+    const row = { shop_id: curShop, name, price, description: $('eDesc').value.trim(), active: $('eActive').checked,
+      position: parseInt($('ePos').value, 10) || 0, images: ed.images, image_url: ed.images[0] || null };
+    const { error } = ed.id ? await db.from('products').update(row).eq('id', ed.id) : await db.from('products').insert(row);
+    if(error) throw error;
+    closeModal(); loadProducts(); toast('✅ Produit enregistré');
+  }catch(e){ msg.textContent = '❌ ' + (e.message || 'Erreur'); }
+}
+
+/* ---------- Paniers abandonnés ---------- */
+async function loadAbandons(){
+  const { data, error } = await byShop(db.from('abandoned_carts').select('*')).order('updated_at', { ascending:false }).limit(300);
+  if(error){ $('abandons').innerHTML = '<p class="err">Indisponible : as-tu lancé schema_v2.sql dans Supabase ?</p>'; return; }
+  abandons = data || []; renderAbandons();
+}
+function renderAbandons(){
+  const all = [['abandonne','À rappeler'], ['rappele','Rappelés'], ['commande','Ont commandé'], ['all','Tous']];
+  $('abChips').innerHTML = all.map(([k, v]) => {
+    const n = k === 'all' ? abandons.length : abandons.filter(a => a.status === k).length;
+    return `<div class="chip ${abFilter === k ? 'on' : ''}" data-f="${k}">${v} (${n})</div>`;
+  }).join('');
+  $('abChips').querySelectorAll('.chip').forEach(c => c.onclick = () => { abFilter = c.dataset.f; renderAbandons(); });
+  const list = abandons.filter(a => abFilter === 'all' || a.status === abFilter);
+  if(!list.length){ $('abandons').innerHTML = '<p class="mut" style="text-align:center;padding:30px">Aucun contact dans cette liste.</p>'; return; }
+  $('abandons').innerHTML = list.map(a => {
+    const lines = Array.isArray(a.items) && a.items.length ? a.items.map(i => i.qty + ' × ' + i.name).join(', ') : 'Panier non précisé';
+    const recent = a.status === 'abandonne' && (Date.now() - new Date(a.updated_at)) < 15 * 60000;
+    const sn = shopName(a.shop_id);
+    const msg = `Bonjour${a.customer_name ? ' ' + a.customer_name : ''}, vous avez commencé une commande${sn ? ' chez ' + sn : ''}. Avez-vous besoin d'aide pour la finaliser ?`;
+    return `<div class="card">
+      <div class="row"><b>${esc(a.customer_name || 'Sans nom')}</b><span class="st ${a.status}">${AB_STATUS[a.status] || a.status}</span></div>
+      <div class="mut">${ago(a.updated_at)}${recent ? '<span class="tag">peut-être en cours</span>' : ''}${curShop === 'all' && sn ? `<span class="tag">${esc(sn)}</span>` : ''}</div>
+      <div style="margin-top:6px">${esc(lines)}${a.total ? ' — <b>' + fmt(a.total, a.shop_id) + '</b>' : ''}</div>
+      <div class="mut">📞 ${esc(a.phone)}${a.address ? ' · 📍 ' + esc(a.address) : ''}</div>
+      <div class="actions">
+        <a class="btn call" href="tel:${esc(telNum(a.phone))}">📞 Appeler</a>
+        <a class="btn ghost" href="https://wa.me/${esc(waNum(a.phone))}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+      <div class="actions">
+        ${a.status !== 'rappele' ? `<button class="btn ghost sm" onclick="abSet('${a.id}','rappele')">✓ Rappelé</button>` : `<button class="btn ghost sm" onclick="abSet('${a.id}','abandonne')">↩ À rappeler</button>`}
+        <button class="btn ghost sm" onclick="abDel('${a.id}')">Supprimer</button>
+      </div></div>`;
+  }).join('');
+}
+window.abSet = async (id, status) => { const { error } = await db.from('abandoned_carts').update({ status }).eq('id', id); if(error) return alert('Erreur.'); loadAbandons(); };
+window.abDel = async id => { if(!confirm('Supprimer ce contact ?')) return; const { error } = await db.from('abandoned_carts').delete().eq('id', id); if(error) return alert('Erreur.'); loadAbandons(); };
+
+/* ---------- Statistiques ---------- */
+document.querySelectorAll('#vRange .chip').forEach(c => c.onclick = () => {
+  document.querySelectorAll('#vRange .chip').forEach(x => x.classList.toggle('on', x === c));
+  vDays = Number(c.dataset.d); loadStats();
+});
+const charts = {};
+if(window.Chart){ Chart.defaults.color = '#a1a1aa'; Chart.defaults.borderColor = '#26262b'; Chart.defaults.elements.arc.borderColor = '#141417'; }
+const PALETTE = ['#c9a961','#7dd3fc','#a78bfa','#4ade80','#fb923c','#94a3b8'];
+function draw(id, type, labels, datasets, money){
+  if(!window.Chart) return;
+  if(charts[id]) charts[id].destroy();
+  const opts = { responsive:true, maintainAspectRatio:false, animation:false,
+    plugins:{ legend:{ display: datasets.length > 1 || type === 'doughnut', position:'bottom' } } };
+  if(type !== 'doughnut') opts.scales = {
+    y:{ beginAtZero:true, ticks:{ precision:0, callback: v => money ? Number(v).toLocaleString('fr-FR') : v } },
+    x:{ grid:{ display:false } } };
+  if(money) opts.plugins.tooltip = { callbacks:{ label: c => c.dataset.label + ' : ' + fmt(c.parsed.y) } };
+  charts[id] = new Chart($(id), { type, data:{ labels, datasets }, options:opts });
+}
+async function loadStats(){
+  const res = await db.rpc('dashboard_stats', { p_days: vDays, p_shop: curShop === 'all' ? null : curShop });
+  if(res.error){ $('vKpi').innerHTML = '<p class="err">Statistiques indisponibles : as-tu lancé schema_v2.sql dans Supabase ?</p>'; return; }
+  const s = res.data, daily = s.daily || [];
+  const labels = daily.map(d => d.day.slice(8, 10) + '/' + d.day.slice(5, 7));
+  $('vLive').textContent = s.live;
+  const conv = s.visitors ? (s.orders / s.visitors * 100).toFixed(1) : '0.0';
+  $('vKpi').innerHTML = [["Chiffre d'affaires", fmt(s.revenue)], ['Dont livré', fmt(s.delivered)], ['Commandes', s.orders], ['Visiteurs', s.visitors],
+    ['Pages vues', s.pageviews], ['Conversion', conv + ' %'], ['Abandons à rappeler', s.abandons], ['Ont commencé à commander', s.checkouts]]
+    .map(([l, v]) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join('');
+  draw('chRev', 'bar', labels, [
+    { label:"Chiffre d'affaires", data: daily.map(d => d.revenue), backgroundColor:'#c9a961', borderRadius:6 },
+    { label:'Livré', data: daily.map(d => d.delivered), backgroundColor:'#4ade80', borderRadius:6 }], true);
+  draw('chVis', 'line', labels, [
+    { label:'Visiteurs', data: daily.map(d => d.visitors), borderColor:'#7dd3fc', backgroundColor:'rgba(125,211,252,.12)', fill:true, tension:.3 },
+    { label:'Pages vues', data: daily.map(d => d.pageviews), borderColor:'#a78bfa', tension:.3 }]);
+  draw('chOrd', 'bar', labels, [{ label:'Commandes', data: daily.map(d => d.orders), backgroundColor:'#fb923c', borderRadius:6 }]);
+  const src = s.sources || [], dev = s.devices || [];
+  draw('chSrc', 'doughnut', src.map(x => x.source), [{ data: src.map(x => x.n), backgroundColor: PALETTE }]);
+  draw('chDev', 'doughnut', dev.map(x => x.device), [{ data: dev.map(x => x.n), backgroundColor: PALETTE }]);
+}
+setInterval(() => { if(curTab === 'tStats') loadStats(); }, 30000);
+
+/* ---------- Réglages de la boutique ---------- */
+function productLink(p){
+  const s = shops.find(x => x.id === p.shop_id) || curObj() || {};
+  const slug = p.slug || p.id;
+  if(s.domain) return 'https://' + s.domain + '/?p=' + encodeURIComponent(slug);
+  return new URL('./?b=' + encodeURIComponent(s.slug || '') + '&p=' + encodeURIComponent(slug), location.href).href;
+}
+window.copyProdLink = async id => {
+  const p = (window.__products || []).find(x => x.id === id); if(!p) return;
+  try{ await navigator.clipboard.writeText(productLink(p)); toast('Lien du produit copié ✓'); }catch(e){ prompt('Copie ce lien :', productLink(p)); }
+};
+function shopLink(s){ return new URL('./?b=' + s.slug, location.href).href; }
+function renderShops(){
+  const box = $('shopsBox');
+  const s = curObj();
+  const head = `<div class="row" style="margin-bottom:12px"><h3>Boutiques</h3><button class="btn sm" id="newShop">＋ Nouvelle boutique</button></div>`;
+  if(!s){
+    box.innerHTML = head + (shops.map(x => `<div class="card"><div class="row"><div><b>${esc(x.name)}</b><div class="mut">${esc(shopLink(x))}</div></div>
+      <button class="btn ghost sm" data-open="${esc(x.id)}">Gérer</button></div></div>`).join('') || '<p class="mut">Aucune boutique.</p>');
+    box.querySelectorAll('[data-open]').forEach(b => b.onclick = () => { curShop = b.dataset.open; store.set('fs_admin_shop', curShop); renderShopSel(); renderShops(); });
+    $('newShop').onclick = newShop; return;
+  }
+  box.innerHTML = head + `
+    <div class="panel">
+      <h3>${esc(s.name)}</h3>
+      <div class="mut">Lien de la boutique (à utiliser dans tes pubs et sur WhatsApp) :</div>
+      <div class="linkbox" id="slink">${esc(shopLink(s))}</div>
+      <button class="btn ghost sm" style="margin-top:8px" id="copyLink">Copier le lien</button>
+      <label>Nom de la boutique</label><input id="sName" value="${esc(s.name)}">
+      <label>Logo</label><input id="sFile" type="file" accept="image/*">
+      ${s.logo_url ? `<img class="preview" src="${esc(s.logo_url)}" alt="">` : ''}
+      <label>Titre d'accueil</label><input id="sTitle" value="${esc(s.hero_title || '')}">
+      <label>Texte d'accueil</label><input id="sText" value="${esc(s.hero_text || '')}">
+      <label>Numéro WhatsApp (avec indicatif, ex : 22997000000)</label><input id="sWa" inputmode="tel" value="${esc(s.whatsapp || '')}">
+      <label>ID du Pixel Facebook (chiffres uniquement, facultatif)</label><input id="sPixel" inputmode="numeric" value="${esc(s.fb_pixel_id || '')}" placeholder="Ex : 123456789012345">
+      <label>Texte du bas de page</label><input id="sFoot" value="${esc(s.footer_text || '')}">
+      <label>Nom de domaine (facultatif, ex : maboutique.com)</label><input id="sDomain" value="${esc(s.domain || '')}" placeholder="sans https://">
+      <label>Thème de la boutique</label>
+      <select id="sTheme">${[['vert','Vert profond'],['noir-or','Noir et or'],['ivoire','Ivoire (clair)'],['bleu-nuit','Bleu nuit']].map(([v,l]) => `<option value="${v}" ${(s.theme || 'vert') === v ? 'selected' : ''}>${l}</option>`).join('')}</select>
+      <label>Monnaie affichée</label><input id="sCur" value="${esc(s.currency || 'FCFA')}">
+      <label>Ordre (0 = première)</label><input id="sPos" type="number" inputmode="numeric" value="${s.position || 0}">
+      <label style="display:flex;gap:8px;align-items:center"><input id="sActive" type="checkbox" ${s.active ? 'checked' : ''}> Boutique en ligne</label>
+      <button class="btn full" id="saveShop">Enregistrer</button>
+      <div class="mut" id="sMsg" style="margin-top:8px"></div>
+    </div>`;
+  $('newShop').onclick = newShop;
+  $('copyLink').onclick = async () => { try{ await navigator.clipboard.writeText(shopLink(s)); toast('Lien copié ✓'); }catch(e){ toast('Copie le lien à la main'); } };
+  $('saveShop').onclick = saveShop;
+}
+async function saveShop(){
+  const s = curObj(), msg = $('sMsg'); msg.textContent = 'Enregistrement…';
+  try{
+    const pixel = $('sPixel').value.trim();
+    if(pixel && !/^\d{8,20}$/.test(pixel)) throw new Error('ID Pixel invalide : chiffres uniquement');
+    const patch = { name: $('sName').value.trim() || s.name, hero_title: $('sTitle').value.trim(), hero_text: $('sText').value.trim(),
+      whatsapp: $('sWa').value.trim() || null, footer_text: $('sFoot').value.trim(), fb_pixel_id: pixel || null,
+      domain: $('sDomain').value.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/^www\./, '') || null,
+      theme: $('sTheme').value, currency: $('sCur').value.trim() || 'FCFA', position: parseInt($('sPos').value, 10) || 0, active: $('sActive').checked };
+    const f = $('sFile').files[0];
+    if(f) patch.logo_url = await upload(f, s.slug, true);
+    const { error } = await db.from('shops').update(patch).eq('id', s.id); if(error) throw error;
+    await loadShops(); renderShops(); toast('✅ Boutique enregistrée');
+  }catch(e){
+    msg.textContent = '❌ ' + (/theme|slug/i.test(e.message || '') ? "La base n'est pas à jour : lance update_v3.sql dans Supabase (SQL Editor), puis réessaie." : (e.message || 'Erreur'));
+  }
+}
+async function newShop(){
+  const name = (prompt('Nom de la nouvelle boutique ?') || '').trim(); if(!name) return;
+  let slug = slugify(name) || 'boutique';
+  if(slug.length < 2) slug += '-shop';
+  if(shops.some(s => s.slug === slug)) slug = slug.slice(0, 35) + '-' + Math.floor(100 + Math.random() * 900);
+  const { data, error } = await db.from('shops').insert({ slug, name, position: shops.length }).select();
+  if(error) return alert('Impossible de créer la boutique : ' + error.message);
+  await loadShops();
+  const created = shops.find(s => s.slug === slug);
+  if(created){ curShop = created.id; store.set('fs_admin_shop', curShop); renderShopSel(); }
+  renderShops(); toast('Boutique créée : ajoute maintenant ses produits');
+}
+
+boot();
+</script>
+</body>
+</html>
